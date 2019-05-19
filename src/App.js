@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import reduxThunk from 'redux-thunk';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import AppReducer from './reducers/AppReducer';
+
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+
+import Error from "./screens/error/Error";
+import Home from './screens/home';
+import HeroPage from "./screens/heroPage";
+
+const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+const store = createStoreWithMiddleware(AppReducer);
+
+class App extends React.Component{
+    render(){
+      return (
+        <BrowserRouter>
+          <Switch>
+            <Route path ="/" component={Home} exact />
+            <Route path ="/heroPage/:id" component={HeroPage} />
+            <Route component={Error} />
+          </Switch>
+        </BrowserRouter>
+      );
+    }
 }
 
-export default App;
+export default () =><Provider store={store}><App/></Provider>;
