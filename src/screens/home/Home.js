@@ -40,7 +40,7 @@ class Home extends React.Component {
         }
 
     fetchMoreData = () => {
-        if ((this.state.listCharacters.length >= this.state.total)){
+        if ((this.state.listCharacters.length > 0)&&(this.state.listCharacters.length >= this.state.total)){
             this.setState({
                 hasMore: false
             })
@@ -55,6 +55,7 @@ class Home extends React.Component {
         if (text.trim().length > 0)  {
             nameStartsWith = text;
         }
+        
         this.setState({
             nameStartsWith:nameStartsWith,
             listCharacters:[],
