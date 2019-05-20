@@ -8,17 +8,17 @@
 # running 
 
 - after clone project
-```sh
-$ cd marvel-app
-```
+    ```sh
+    $ cd marvel-app
+    ```
 
 - install dependencies
 
-``npm install``
+    ``npm install``
 
 - Run app
 
-``npm start``
+    ``npm start``
 
 # dependencies
 
