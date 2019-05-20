@@ -13,9 +13,11 @@ $ cd marvel-app
 ```
 
 - install dependencies
+
 ``npm install``
 
 - Run app
+
 ``npm start``
 
 # dependencies
