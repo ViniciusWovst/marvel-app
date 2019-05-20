@@ -144,7 +144,6 @@ class HeroPage extends React.Component{
     render(){
         const {characterImage, spacing} = this.props.location.state;
         const { classes } = this.props;
-       
 
         return(
             <div>
