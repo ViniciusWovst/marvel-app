@@ -7,22 +7,11 @@ import { bindActionCreators } from 'redux';
 //actions
 import {getCharacter} from './redux';
 
-import { withStyles } from '@material-ui/core/styles';
-import HeaderBar from '../../components/headerBar';
-
-import CustomCard from '../../components/card';
-import Grid from '@material-ui/core/Grid';
-
+//components
+import { withStyles, Grid, Button } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit'
-import  Button  from "@material-ui/core/Button";
-
-import Modal from '@material-ui/core/Modal';
-
-import TextField from '@material-ui/core/TextField';
-
-
-
-
+import HeaderBar from '../../components/headerBar';
+import CustomCard from '../../components/CustomCard';
 import ModalEditCharacter from '../../components/modalEditCharacter';
 
 const styles = theme => ({
@@ -30,7 +19,6 @@ const styles = theme => ({
         flexGrow: 1,
         marginTop:30
         },
-    
 
     rightIcon: {
         marginLeft: theme.spacing.unit
@@ -47,7 +35,6 @@ const styles = theme => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing.unit * 4,
         outline: 'none',
-
         },  
 });
 
@@ -60,46 +47,30 @@ class HeroPage extends React.Component{
             listSeries:[],
             characterName:'',
             characterDescription:'',
-            isLoading:false,
+            isLoading:true,
             spacing:40,
             modalOpen:false
             };
         }
-    
+
     componentDidMount(){
         this.props.getCharacter(this.props.match.params.id);
     };
 
-    getModalStyle() {
-        const top = 50;
-        const left = 50;
-
-
-        return {
-            top: `${top}%`,
-            left: `${left}%`,
-            transform: `translate(-${top}%, -${left}%)`,
-            flexDirection:'column'
-            };
-        }
-
     handleEditCharacter(){
         this.setState({ modalOpen: true });
-
     }
 
     handleClose = () => {
         this.setState({ modalOpen: false });
-      };
+        };
 
-    //handleSaveInfo(nameCharacter, characterDescription) {
-        handleSaveInfo = (characterName, characterDescription) => {
-            this.setState({ 
+    handleSaveInfo = (characterName, characterDescription) => {
+        this.setState({ 
             characterDescription:characterDescription,
             characterName:characterName,
             modalOpen: false,
-         });
-
+            });
     }
 
     componentWillReceiveProps(nextProps){
@@ -112,35 +83,69 @@ class HeroPage extends React.Component{
                 isLoading:nextProps.isLoadingReducer,
                 characterDescription:characterDescription, 
                 characterName:characterName
-                //total:nextProps.totalReducer,
-                //hasMore: true
             })
         }
     }
 
-    
+    renderEditButton(){
+        return (
+            <Button onClick={() => this.handleEditCharacter()} 
+                variant="contained" 
+                color="primary" 
+                className={this.props.classes.button}>
+                edit
+                <EditIcon className={this.props.classes.rightIcon} />
+            </Button>
+            )
+    }
 
-    render(){
-        
-        const {characterImage, spacing} = this.props.location.state;
-        const { classes } = this.props;
-    //if (!this.state.listSeries.length > 0 || characterReducer.isLoading) {
-      //  return this.renderLoading();
-      //}
+    renderModal(){
+        return(
+        <ModalEditCharacter 
+            modalOpen={this.state.modalOpen} 
+            onClose={this.handleClose} 
+            onSave={this.handleSaveInfo}
+            characterName={this.state.characterName}
+            characterDescription={this.state.characterDescription}
+            />
+        )
+    }
+
+    renderSeries(){
+        if (this.state.isLoading) {
+            items = this.renderLoading();
+            }
 
         if (!this.state.isLoading) {
             var items = this.state.listSeries.map((i, index) => (
                 <div key={index}>
                     <Grid key={index} item>
                         <CustomCard 
-                            characterName={''} 
                             subTitle={i.title}
                             characterImage={i.thumbnail.path+'/landscape_medium.jpg'}/>
                     </Grid>
-                    
                 </div>
             ))
         }
+
+        return items;
+    }
+
+    renderLoading(){
+        return(
+            <div>
+                <h1>
+                    Loading...
+                </h1>
+            </div>
+        )
+    }
+
+    render(){
+        const {characterImage, spacing} = this.props.location.state;
+        const { classes } = this.props;
+       
+
         return(
             <div>
                 <HeaderBar/>
@@ -148,13 +153,7 @@ class HeroPage extends React.Component{
                     <img style={{width:350, height:300}} alt='' src={characterImage}/>
                 </div>
                 <div style={{textAlign:'center'}}>
-                    <Button onClick={() => this.handleEditCharacter()} 
-                        variant="contained" 
-                        color="primary" 
-                        className={classes.button}>
-                        edit
-                        <EditIcon className={classes.rightIcon} />
-                    </Button>
+                    {this.renderEditButton()}
                     <h3>
                         {this.state.characterName}
                     </h3>
@@ -164,19 +163,12 @@ class HeroPage extends React.Component{
                 </div>
                 <Grid container className={classes.root} spacing={16}>
                     <Grid item xs={12}>
-                        <Grid container justify="center"  spacing={Number(spacing)}>
-                            {items}
+                        <Grid container justify="center"  spacing={Number(this.state.spacing)}>
+                            {this.renderSeries()}
                         </Grid>
                     </Grid>
                 </Grid>
-                <ModalEditCharacter 
-                    modalOpen={this.state.modalOpen} 
-                    onClose={this.handleClose} 
-                    onSave={this.handleSaveInfo}
-                    characterName={this.state.characterName}
-                    characterDescription={this.state.characterDescription}
-                    
-                    />
+                {this.renderModal()}
             </div>
         )
     }

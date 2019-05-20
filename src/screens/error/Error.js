@@ -4,11 +4,10 @@ class Error extends React.Component{
     render(){
         return(
             <div>
-                <p>Página não encontrada ! </p>
+                <p>P�gina n?o encontrada ! </p>
             </div>
         )
     }
-
 }
 
 export default Error;

@@ -1,34 +1,28 @@
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-
-import Typography from '@material-ui/core/Typography';
-
-
+import { 
+    withStyles, 
+    Card, 
+    CardActionArea, 
+    CardContent, 
+    Typography 
+    } from '@material-ui/core';
 
 const styles = {
     card: {
-    maxWidth: 345,
-    width:350,
-    height: 350,
-    //marginLeft:20,
-    //paddingRight:10,
-    margin:10,
-    marginBottom:20,
-    borderRadius:2,
-    display: 'flex', 
-    justifyContent: 'center'
-
-    },
+        maxWidth: 345,
+        width:350,
+        height: 350,
+        margin:10,
+        marginBottom:20,
+        borderRadius:2,
+        display: 'flex', 
+        justifyContent: 'center'
+        },
     area: {
         textAlign:'center',
-        //width:350,
-    },
+        },
 };
-
 
 class CustomCard extends React.Component {
     render(){
@@ -41,7 +35,6 @@ class CustomCard extends React.Component {
                     <div>
                         <img style={{
                             width:350, 
-                            //height:200, 
                             borderRadius:2
                             
                             }} 

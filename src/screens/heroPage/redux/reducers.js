@@ -28,7 +28,7 @@ const characterReducer = (state = INITIAL_STATE, action) => {
                 isLoading:false,
                 error:true
             };
-        
+
         default:
             return state;
     }

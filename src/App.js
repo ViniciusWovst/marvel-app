@@ -8,6 +8,7 @@ import AppReducer from './reducers/AppReducer';
 
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
+//screens
 import Error from "./screens/error/Error";
 import Home from './screens/home';
 import HeroPage from "./screens/heroPage";

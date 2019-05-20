@@ -8,30 +8,22 @@ import { bindActionCreators } from 'redux';
 import {getCharacters} from './redux';
 
 //components
-import CustomCard from '../../components/card';
+import CustomCard from '../../components/CustomCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Grid } from '@material-ui/core';
 import SearchBar from '../../components/searchBar';
 import {NavLink} from "react-router-dom";
 
 const styles = theme => ({
     root: {
-      flexGrow: 1,
-      marginTop:30
+        flexGrow: 1,
+        marginTop:30
     },
-    paper: {
-      height: 140,
-      width: 100,
-    },
-    control: {
-      padding: theme.spacing.unit * 2,
-    },
+
     card: {
         maxWidth: 345,
-      },
-  });
-  
+        },
+    });
 
 class Home extends React.Component {
 
@@ -68,15 +60,12 @@ class Home extends React.Component {
             listCharacters:[],
             hasMore:true
         });
-    
 
         this.fetchMoreData();
-        
     }
 
     componentWillReceiveProps(nextProps){
         if (nextProps.listCharactersReducer != null && !nextProps.isLoadingReducer) {
-
             this.setState({
                 listCharacters:this.state.listCharacters.concat(nextProps.listCharactersReducer),
                 total:nextProps.totalReducer,
@@ -88,11 +77,8 @@ class Home extends React.Component {
     componentDidMount(){
         this.props.getCharacters();
     }
-    
-    render(){
-        const { classes } = this.props;
-        const { spacing } = this.state;
 
+    renderCharacters(){
         if (!this.state.isLoading) {
             var items = this.state.listCharacters.map((i, index) => (
                 <div key={index}>
@@ -105,7 +91,7 @@ class Home extends React.Component {
                                 characterName:i.name
                             }
                         }}>  
-                    
+
                         <Grid key={index} item>
                             <CustomCard 
                                 characterName={i.name} 
@@ -116,6 +102,13 @@ class Home extends React.Component {
                 </div>
             ))
         }
+        return items
+    }
+
+    render(){
+        const { classes } = this.props;
+        const { spacing } = this.state;
+
         return(
             <div>
                 <SearchBar fetchSearchCharacter={this.searchCharacters}/>
@@ -127,12 +120,11 @@ class Home extends React.Component {
                     <Grid container className={classes.root} spacing={16}>
                         <Grid item xs={12}>
                             <Grid container justify="center"  spacing={Number(spacing)}>
-                                {items}
+                                {this.renderCharacters()}
                             </Grid>
                         </Grid>
                     </Grid>
                 </InfiniteScroll>
-                
             </div>
         );
     }

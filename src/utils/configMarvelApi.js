@@ -1,6 +1,5 @@
 import md5 from 'crypto-js/md5';
 
-
 const MARVEL_BASE_URL='https://gateway.marvel.com:443/v1/public';
 
 const CONFIG_MARVEL_API = {
